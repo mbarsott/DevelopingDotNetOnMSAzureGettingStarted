@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using PsHelloAzure.Models;
+using System;
 using System.Diagnostics;
 
 namespace PsHelloAzure.Controllers
@@ -18,6 +19,11 @@ namespace PsHelloAzure.Controllers
         {
             var model = _configuration["Greeting"];
             return View("Index", model);
+        }
+
+        public IActionResult Test()
+        {
+            throw new InvalidOperationException("Sorry, this feature is not supported.");
         }
 
         public IActionResult About()

@@ -30,7 +30,8 @@ namespace PsHelloAzure.Services
 
         public IEnumerable<Course> GetAllCourses()
         {
-            var courses = client.CreateDocumentQuery<Course>(coursesLink)
+            var feedOptions = new FeedOptions { EnableCrossPartitionQuery = true };
+            var courses = client.CreateDocumentQuery<Course>(coursesLink, feedOptions)
                                 .OrderBy(c => c.Title);
 
             return courses;

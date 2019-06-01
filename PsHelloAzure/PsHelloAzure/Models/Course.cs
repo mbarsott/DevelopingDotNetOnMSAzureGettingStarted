@@ -7,8 +7,8 @@ namespace PsHelloAzure.Models
     {
         [JsonProperty("id")]
         public string Id { get; set; }
-
         public string Title { get; set; }
+        [JsonProperty("subject")]
         public string Subject { get; set; }
         public ICollection<Module> Modules { get; set; }
     }

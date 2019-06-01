@@ -35,3 +35,6 @@ to activate the CourseStore, as stated in the following message:
 ```Unable to resolve service for type 'PsHelloAzure.Services.CourseStore' while attempting to activate 'PsHelloAzure.Controllers.CoursesController'```
 AI also says the problemId was `System.InvalidOperationException at lambda_method`.
 I am suspicious this has to do with the partition key defined. I entered the partition key as `/courses/subject`.
+I did some research and implemented the solution suggested in the course discussion forum, recreating the container with the partition
+key set to `/subject`, adding feed options with EnableCrossPartitionQuery to the DocumentQuery, and setting the partition key
+JsonProperty to "subject" in the Course Model. I still got the same results, same exception, same messages in AI.

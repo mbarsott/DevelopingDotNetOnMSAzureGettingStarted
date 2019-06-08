@@ -22,7 +22,7 @@ namespace PsHelloAzure.Services
         {
             var imageId = Guid.NewGuid().ToString();
             var container = _blobClient.GetContainerReference("images");
-            var blob= container.GetBlockBlobReference(imageId);
+            var blob = container.GetBlockBlobReference(imageId);
             await blob.UploadFromStreamAsync(imageStream);
 
             return imageId;
@@ -30,7 +30,17 @@ namespace PsHelloAzure.Services
 
         public string UriFor(string imageId)
         {
-            return $"{_baseUri}images/{imageId}";
+            var sasPolicy = new SharedAccessBlobPolicy()
+            {
+                Permissions = SharedAccessBlobPermissions.Read,
+                SharedAccessStartTime = DateTime.UtcNow.AddMinutes(-15),
+                SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(15)
+            };
+            var container = _blobClient.GetContainerReference("images");
+            var blob = container.GetBlockBlobReference(imageId);
+            var sas = blob.GetSharedAccessSignature(sasPolicy);
+
+            return $"{_baseUri}images/{imageId}{sas}";
         }
     }
 }
